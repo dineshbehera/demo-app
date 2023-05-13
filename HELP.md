@@ -17,17 +17,43 @@ The following guides illustrate how to use some features concretely:
 * [Handling Form Submission](https://spring.io/guides/gs/handling-form-submission/)
 
 ## Docker Commands :
-* mvn clean package 
-* docker build -t dineshbehera/demo-app:latest .
-* docker push dineshbehera/demo-app:latest
+`mvn clean package`
+`docker build -t dineshbehera/demo-app:latest .`
+`docker push dineshbehera/demo-app:latest`
 
-* docker login --> login to docker hub
+`docker login` --> login to docker hub
 
 * docker pull <<image path>>
 <br>
-  docker pull dineshbehera/demo-app
+  `docker pull dineshbehera/demo-app`
 
     <br>
-  docker run -d -p 8080:8080 --name demo-app dineshbehera/demo-app:latest
+  `docker run -d -p 8080:8080 --name demo-app dineshbehera/demo-app:latest`
 
   open http:localhost:8080
+  
+ ## kubernetes Commands:
+ `kubectl -n developemnt get nodes -o wide`
+ `kubectl -n development get deployments -o wide`
+ `kubectl -n development get pods -o wide`
+ `kubectl -n development get services -o wide`
+
+
+Deploy :
+<br>
+ `kubectl -n development create deployment demo-app-manual --image=dineshbehera/demo-app:latest`
+
+ or `kubectl -n development create -f k8.yaml`
+
+or deploy manually through UI
+
+
+`kubectl -n development get services`
+
+we can see that our service "demo-app" is running, but the external IP address is <pending>. To expose the service, execute that command below.
+* `minikube -n development service demo-app`
+
+  open URL
+
+  `kubectl -n development get pods`
+* kubectl -n development logs <<pod name>>
