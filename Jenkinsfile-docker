@@ -1,0 +1,52 @@
+pipeline {
+    agent any
+    tools {
+        maven 'maven-3.8.6' 
+    }
+    environment {
+        DATE = new Date().format('yy.M')
+        TAG = "${DATE}.${BUILD_NUMBER}"
+        registry = 'https://registry.hub.docker.com'
+        registryCredential = 'dockerhubcred'
+        dockerImage = 'dineshbehera/demo-app'
+        containerName = 'demo-app'
+    }
+    stages {
+        stage('Cloning Git') {
+          steps {
+            git 'https://github.com/dineshbehera/demo-app.git'
+          }
+        }      
+
+        stage ('Build') {
+            steps {
+                sh 'mvn clean package'
+            }
+        }
+        stage('Docker Build') {
+            steps {
+                script {
+                    docker.build("${dockerImage}:${TAG}")
+                }
+            }
+        }
+        stage('Docker Push') { 
+                    steps { 
+                        script { 
+                            docker.withRegistry(registry, registryCredential) { 
+                                docker.image("${dockerImage}:${TAG}").push()
+                                docker.image("${dockerImage}:${TAG}").push("latest") 
+                            } 
+                        } 
+                    } 
+
+        } 
+        stage('Docker run'){
+            steps {
+                sh "docker stop ${containerName} | true"
+                sh "docker rm ${containerName} | true"
+                sh "docker run --name ${containerName} -d -p 9004:8080 ${dockerImage}:${TAG}"
+            }
+        }
+    }
+}
