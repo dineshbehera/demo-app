@@ -13,9 +13,9 @@
 <body>
 
 	<!-- create navigation bar ( header) -->
-	<nav class="navbar navbar-inverse navbar-fixed-top">
+	<nav class="navbar navbar-inverse navbar-fixed-top navbar-light bg-light">
 		<div class="container">
-			<div class="navbar-header">
+			<div class="navbar-header navbar-light bg-light">
 				<a class="navbar-brand" href="#" th:href="@{/}">Demo Spring Boot Application</a>
 			</div>
 		</div>
@@ -24,19 +24,24 @@
 	<br>	<br>	<br>
 	<div class="container">
 		<div class="row col-md-10">
-			<h2>Details </h2>
+			<h2><div th:text="${@environment.getProperty('demoapp.message')}"></div></h2>
 		</div>
 
-		<table class="table table-bordered table-hover">
+		<table class="table table-dark table-bordered table-hover">
 			<tbody>
 				<tr><td>Host</td><td th:text="${details.host}"></td></tr>
 				<tr><td>IP</td><td th:text="${details.ip}"></td></tr>
+				<tr><td>Version</td><td th:text="${details.version}"></td></tr>
+				<tr><td>Build</td><td th:text="${details.build}"></td></tr>
+				<tr><td>Title</td><td th:text="${details.title}"></td></tr>
 				<tr><td>Date Time</td><td th:text="${details.time}"></td></tr>
 
 			</tbody>
 		</table>
 
 	</div>
+	
+	
 </body>
 
 </html>
