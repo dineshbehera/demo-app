@@ -45,6 +45,11 @@ Open
  `kubectl -n development get services -o wide`
 <br>
 
+Undeploy:
+<br>
+`kubectl delete -f k8.yaml`
+
+
 Deploy :
 <br>
  `kubectl -n development create deployment demo-app-manual --image=dineshbehera/demo-app:latest`
