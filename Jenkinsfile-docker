@@ -6,12 +6,20 @@ pipeline {
     environment {
         DATE = new Date().format('yy.M')
         TAG = "${DATE}.${BUILD_NUMBER}"
-        registry = 'https://registry.hub.docker.com'
-        registryCredential = 'dockerhubcred'
-        dockerImage = 'dineshbehera/demo-app'
-        containerName = 'demo-app'
+        DOCKERHUB_USERNAME = "dineshbehera"
+        REGISTRY_URL = 'https://registry.hub.docker.com'
+        REGISTRY_CREDS = 'dockerhubcred'
+        IMAGE_NAME = "${DOCKERHUB_USERNAME}" + "/" + "${APP_NAME}"
+        CONTAINER_NAME = 'demo-app'
     }
     stages {
+        stage('Clenup workspace'){
+           steps{
+               script{
+                  cleanWs()
+               }
+           }
+        }
         stage('Cloning Git') {
           steps {
             git 'https://github.com/dineshbehera/demo-app.git'
@@ -26,16 +34,16 @@ pipeline {
         stage('Docker Build') {
             steps {
                 script {
-                    docker.build("${dockerImage}:${TAG}")
+                    docker.build("${IMAGE_NAME}:${TAG}")
                 }
             }
         }
         stage('Docker Push') { 
                     steps { 
                         script { 
-                            docker.withRegistry(registry, registryCredential) { 
-                                docker.image("${dockerImage}:${TAG}").push()
-                                docker.image("${dockerImage}:${TAG}").push("latest") 
+                            docker.withRegistry(REGISTRY_URL, REGISTRY_CREDS) { 
+                                docker.image("${IMAGE_NAME}:${TAG}").push()
+                                docker.image("${IMAGE_NAME}:${TAG}").push("latest") 
                             } 
                         } 
                     } 
@@ -43,10 +51,20 @@ pipeline {
         } 
         stage('Docker run'){
             steps {
-                sh "docker stop ${containerName} | true"
-                sh "docker rm ${containerName} | true"
-                sh "docker run --name ${containerName} -d -p 9004:8080 ${dockerImage}:${TAG}"
+                sh "docker stop ${CONTAINER_NAME} | true"
+                sh "docker rm ${CONTAINER_NAME} | true"
+                sh "docker run --name ${CONTAINER_NAME} -d -p 9004:8080 ${IMAGE_NAME}:${TAG}"
             }
         }
+       
+       stage('Delete Docker images'){
+
+            steps{
+                script{
+
+                    sh "docker rmi ${IMAGE_NAME}:${IMAGE_TAG}"
+                    sh "docker rmi ${IMAGE_NAME}:latest"
+                }
+            }
     }
 }
