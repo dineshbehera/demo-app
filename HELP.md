@@ -18,26 +18,32 @@ The following guides illustrate how to use some features concretely:
 
 ## Docker Commands :
 `mvn clean package`
+<br>
 `docker build -t dineshbehera/demo-app:latest .`
+<br>
 `docker push dineshbehera/demo-app:latest`
 
 `docker login` --> login to docker hub
 
-* docker pull <<image path>>
+docker pull <<image path>>
 <br>
   `docker pull dineshbehera/demo-app`
-
     <br>
   `docker run -d -p 8080:8080 --name demo-app dineshbehera/demo-app:latest`
+<br>
+Open 
+[http:localhost:8080](http:localhost:8080)
 
-  open http:localhost:8080
   
  ## kubernetes Commands:
  `kubectl -n developemnt get nodes -o wide`
+ <br>
  `kubectl -n development get deployments -o wide`
+ <br>
  `kubectl -n development get pods -o wide`
+ <br>
  `kubectl -n development get services -o wide`
-
+<br>
 
 Deploy :
 <br>
