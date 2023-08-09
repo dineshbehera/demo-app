@@ -56,13 +56,17 @@ Open
 
   
  ## kubernetes Commands:
- `kubectl -n developemnt get nodes -o wide`
  <br>
- `kubectl -n development get deployments -o wide`
+ Optional :   `kubectl create namespace local-dev`
+<br>
+
+ `kubectl -n local-dev get nodes -o wide`
  <br>
- `kubectl -n development get pods -o wide`
+ `kubectl -n local-dev get deployments -o wide`
  <br>
- `kubectl -n development get services -o wide`
+ `kubectl -n local-dev get pods -o wide`
+ <br>
+ `kubectl -n local-dev get services -o wide`
 <br>
 
 Undeploy:
@@ -72,19 +76,19 @@ Undeploy:
 
 Deploy :
 <br>
- `kubectl -n development create deployment demo-app-manual --image=dineshbehera/demo-app:latest`
+ `kubectl -n local-dev create deployment demo-app-manual --image=dineshbehera/demo-app:latest`
 
- or `kubectl -n development create -f k8.yaml`
+ or `kubectl -n local-dev create -f k8.yaml`
 
 or deploy manually through UI
 
 
-`kubectl -n development get services`
+`kubectl -n local-dev get services`
 
 we can see that our service "demo-app" is running, but the external IP address is <pending>. To expose the service, execute that command below.
-* `minikube -n development service demo-app`
+* `minikube -n local-dev service demo-app`
 
   open URL
 
-  `kubectl -n development get pods`
+  `kubectl -n local-dev get pods`
 * kubectl -n development logs <<pod name>>

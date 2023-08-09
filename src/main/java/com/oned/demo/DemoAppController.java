@@ -50,6 +50,6 @@ public class DemoAppController {
 		model.addAttribute("details", map);
 		return "index";
 	}
-	
+
 
 }
