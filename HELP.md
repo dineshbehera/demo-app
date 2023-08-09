@@ -16,6 +16,26 @@ The following guides illustrate how to use some features concretely:
 * [Building a RESTful Web Service with Spring Boot Actuator](https://spring.io/guides/gs/actuator-service/)
 * [Handling Form Submission](https://spring.io/guides/gs/handling-form-submission/)
 
+## Build and run  Commands :
+
+Build and run
+<br>
+`mvn clean install`
+<br><br>
+run only
+<br>
+`mvn spring-boot:run`
+<br>
+<br>
+run after  jar file is created in target folder
+<br>
+`java -jar target/demo-app-0.0.1-SNAPSHOT.jar`
+<br>
+<br>
+run after jar file is created in target folder - (active profile tst/prd)
+<br>
+``java -jar -Dspring.profiles.active=tst target/demo-app-0.0.1-SNAPSHOT.jar spring.active.profile=tst``
+
 ## Docker Commands :
 `mvn clean package`
 <br>
