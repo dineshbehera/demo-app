@@ -47,9 +47,15 @@ run after jar file is created in target folder - (active profile tst/prd)
 
 docker pull <<image path>>
 <br>
-  `docker pull dineshbehera/demo-app`
-    <br>
+`docker pull dineshbehera/demo-app`
+<br>
   `docker run -d -p 8080:8080 --name demo-app dineshbehera/demo-app:latest`
+  
+  tst
+  `docker run -d -p 8081:8080 --name demo-app-tst -e "SPRING_PROFILES_ACTIVE=tst" dineshbehera/demo-app:latest`
+  
+  prod
+  `docker run -d -p 8082:8080 --name demo-app-prod -e "SPRING_PROFILES_ACTIVE=prod" dineshbehera/demo-app:latest`
 <br>
 Open 
 [http:localhost:8080](http:localhost:8080)
@@ -77,18 +83,30 @@ Undeploy:
 Deploy :
 <br>
  `kubectl -n local-dev create deployment demo-app-manual --image=dineshbehera/demo-app:latest`
+ 
+ or 
+ `kubectl -n local-dev create -f k8.yaml`
 
- or `kubectl -n local-dev create -f k8.yaml`
+or <br>
+  deploy manually through UI
 
-or deploy manually through UI
-
-
+`kubectl -n local-dev get deployments` <br>
 `kubectl -n local-dev get services`
 
-we can see that our service "demo-app" is running, but the external IP address is <pending>. To expose the service, execute that command below.
-* `minikube -n local-dev service demo-app`
 
-  open URL
+`kubectl -n local-dev get pods`
+`kubectl -n local-dev get pods -o wide`
+
+`kubectl -n local-dev describe pod <<pod name>>`
+
+`kubectl get service --all-namespaces`
+
+``
+
+we can see that our service "demo-app-svc" is running, but the external IP address is <pending>. To expose the service, execute that command below.
+`minikube -n local-dev service demo-app-svc`
+
+  it will open the URL automatically. If not open URL
 
   `kubectl -n local-dev get pods`
 * kubectl -n development logs <<pod name>>

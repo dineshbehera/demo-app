@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: demo-app
-  namespace: development
+  namespace: local-dev
 spec:
   selector:
     matchLabels:
@@ -26,8 +26,8 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: demo-app
-  namespace: development
+  name: demo-app-svc
+  namespace: local-dev
 spec:
   selector:
     app: demo-app
