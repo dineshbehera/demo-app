@@ -32,7 +32,7 @@ public class DemoAppController {
             hostname = ip.getHostName();   
             
             map.put("host", hostname);
-            map.put("ip", ip);
+            map.put("ip", ip.getHostAddress());
             map.put("time", new java.util.Date());
             map.put("title", appInfo.getTitle());
             map.put("version", appInfo.getVersion());
