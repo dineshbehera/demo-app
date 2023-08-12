@@ -16,7 +16,7 @@ The following guides illustrate how to use some features concretely:
 * [Building a RESTful Web Service with Spring Boot Actuator](https://spring.io/guides/gs/actuator-service/)
 * [Handling Form Submission](https://spring.io/guides/gs/handling-form-submission/)
 
-## Build and run  Commands :
+## Build and run  Commands in cmd:
 
 Build and run
 <br>
@@ -38,35 +38,45 @@ run after jar file is created in target folder - (active profile tst/prd)
 
 ## Docker Commands :
 `mvn clean package`
-<br>
-`docker build -t dineshbehera/demo-app:latest .`
-<br>
-`docker push dineshbehera/demo-app:latest`
 
-`docker login` --> login to docker hub
+`docker login` => login to docker hub
+
+`docker build -t demo-app:latest .`
+
+`docker push demo-app:latest`
+
+
 
 docker pull <<image path>>
 <br>
-`docker pull dineshbehera/demo-app`
+`docker pull demo-app`
+
+`docker run -d -p 8080:8080 --name demo-app demo-app:latest`
+  
+tst
 <br>
-  `docker run -d -p 8080:8080 --name demo-app dineshbehera/demo-app:latest`
+`docker run -d -p 8081:8080 --name demo-app-tst -e "SPRING_PROFILES_ACTIVE=tst" demo-app:latest`
   
-  tst
-  `docker run -d -p 8081:8080 --name demo-app-tst -e "SPRING_PROFILES_ACTIVE=tst" dineshbehera/demo-app:latest`
-  
-  prod
-  `docker run -d -p 8082:8080 --name demo-app-prod -e "SPRING_PROFILES_ACTIVE=prod" dineshbehera/demo-app:latest`
+prod
+<br>
+`docker run -d -p 8082:8080 --name demo-app-prod -e "SPRING_PROFILES_ACTIVE=prod" demo-app:latest`
+<br>
 <br>
 Open 
 [http:localhost:8080](http:localhost:8080)
 
-  
- ## kubernetes Commands:
- <br>
- Optional :   `kubectl create namespace local-dev`
+## Kubernetes :
+Ingress: It let the external access to the services inside the Kubernetes cluster
+Service: It is the endpoint by which external access is given to the application(pods). Without a service, only pods can communicate in the cluster
+
+We can expose 
+
+## kubernetes Commands:
+
+Optional :   `kubectl create namespace local-dev`
 <br>
 
- `kubectl -n local-dev get nodes -o wide`
+`kubectl -n local-dev get nodes -o wide`
  <br>
  `kubectl -n local-dev get deployments -o wide`
  <br>
@@ -82,7 +92,7 @@ Undeploy:
 
 Deploy :
 <br>
- `kubectl -n local-dev create deployment demo-app-manual --image=dineshbehera/demo-app:latest`
+ `kubectl -n local-dev create deployment demo-app-manual --image=demo-app:latest`
  
  or 
  `kubectl -n local-dev create -f k8.yaml`
@@ -95,18 +105,23 @@ or <br>
 
 
 `kubectl -n local-dev get pods`
+
 `kubectl -n local-dev get pods -o wide`
 
 `kubectl -n local-dev describe pod <<pod name>>`
 
 `kubectl get service --all-namespaces`
 
-``
 
-we can see that our service "demo-app-svc" is running, but the external IP address is <pending>. To expose the service, execute that command below.
+
+we can see that our service "demo-app-svc" is running, but the external IP address is `<pending>` status . To expose the service, execute the below command
 `minikube -n local-dev service demo-app-svc`
 
-  it will open the URL automatically. If not open URL
+ it will open the URL automatically. if not, execute the below command :
+ `minikube -n local-dev service --all`
 
-  `kubectl -n local-dev get pods`
-* kubectl -n development logs <<pod name>>
+
+`kubectl -n development logs <<pod name>>`
+
+`kubectl -n local-dev get pods`
+
